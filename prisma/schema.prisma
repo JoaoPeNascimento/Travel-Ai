@@ -11,6 +11,8 @@ model User {
   id      String   @id @default(cuid())
   name    String
   email   String   @unique
+  password String
+  createdAt DateTime @default(now())
   travels Travel[]
   invites Invite[]
 }
@@ -24,6 +26,7 @@ model Travel {
   invites     Invite[]
   ownerId     String
   owner       User     @relation(fields: [ownerId], references: [id])
+  activities  Activity[]
 }
 
 model Invite {
@@ -32,4 +35,15 @@ model Invite {
   travel   Travel @relation(fields: [travelId], references: [id])
   userId   String
   user     User   @relation(fields: [userId], references: [id])
+}
+
+model Activity {
+  id          String   @id @default(cuid()) 
+  name        String
+  description String
+  date        DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  travelId    String
+  travel      Travel   @relation(fields: [travelId], references: [id])
 }
