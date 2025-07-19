@@ -52,7 +52,7 @@ export const travelController = {
       const deletedActivities =
         await activityService.deleteAllActivitiesByTravelId(id);
       const deletedTravel = await travelService.deleteTravel(id);
-      res.status(200).json(deletedTravel);
+      res.status(200).json(deletedTravel).json(deletedActivities);
     } catch (error) {
       res.status(404).json({ error: "Viagem não encontrada: " + error });
     }
