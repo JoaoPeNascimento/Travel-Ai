@@ -22,14 +22,16 @@ export const travelService = {
 
   createTravel: async (data: {
     destination: string;
-    date: string;
+    startDate: string;
+    endDate: string;
     ownerId: string;
   }) => {
     try {
       const travel = await prisma.travel.create({
         data: {
           destination: data.destination,
-          date: new Date(data.date),
+          startDate: new Date(data.startDate),
+          endDate: new Date(data.endDate),
           ownerId: data.ownerId,
         },
       });

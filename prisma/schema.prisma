@@ -8,24 +8,25 @@ datasource db {
 }
 
 model User {
-  id      String   @id @default(cuid())
-  name    String
-  email   String   @unique
-  password String
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
   createdAt DateTime @default(now())
-  travels Travel[]
-  invites Invite[]
+  travels   Travel[]
+  invites   Invite[]
 }
 
 model Travel {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   destination String
-  date        DateTime
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   invites     Invite[]
   ownerId     String
-  owner       User     @relation(fields: [ownerId], references: [id])
+  owner       User       @relation(fields: [ownerId], references: [id])
   activities  Activity[]
 }
 
@@ -38,7 +39,7 @@ model Invite {
 }
 
 model Activity {
-  id          String   @id @default(cuid()) 
+  id          String   @id @default(cuid())
   name        String
   description String
   date        DateTime

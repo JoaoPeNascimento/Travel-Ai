@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { travelService } from "../services/travelService";
+import { activityService } from "../services/activityService";
 
 export const travelController = {
   getAll: async (req: Request, res: Response) => {
@@ -25,11 +26,12 @@ export const travelController = {
   },
 
   createTravel: async (req: Request, res: Response) => {
-    const { destination, date, ownerId } = req.body;
+    const { destination, startDate, endDate, ownerId } = req.body;
     try {
       const newTravel = await travelService.createTravel({
         destination,
-        date,
+        startDate,
+        endDate,
         ownerId,
       });
 
@@ -47,6 +49,8 @@ export const travelController = {
   deleteTravel: async (req: Request, res: Response) => {
     const id = req.params.id;
     try {
+      const deletedActivities =
+        await activityService.deleteAllActivitiesByTravelId(id);
       const deletedTravel = await travelService.deleteTravel(id);
       res.status(200).json(deletedTravel);
     } catch (error) {
