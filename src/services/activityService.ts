@@ -19,11 +19,27 @@ export const activityService = {
     travelId: string;
   }) => {
     try {
+      const travel = await prisma.travel.findUnique({
+        where: { id: data.travelId },
+      });
+
+      if (!travel) {
+        throw new Error("Viagem não encontrada.");
+      }
+
+      const activityDate = new Date(data.date);
+
+      if (activityDate < travel.startDate || activityDate > travel.endDate) {
+        throw new Error(
+          "A data da atividade deve estar dentro do período da viagem."
+        );
+      }
+
       const activity = prisma.activity.create({
         data: {
           name: data.name,
           description: data.description,
-          date: new Date(data.date),
+          date: activityDate,
           travelId: data.travelId,
         },
       });
