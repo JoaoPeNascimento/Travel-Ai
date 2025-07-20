@@ -5,7 +5,7 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-router.get("/", authMiddleware, travelController.getAll);
+router.get("/:id", authMiddleware, travelController.getAll);
 router.get("/:id", authMiddleware, travelController.getById);
 router.delete("/:id", authMiddleware, travelController.deleteTravel);
 router.post(

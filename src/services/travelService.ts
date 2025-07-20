@@ -3,8 +3,12 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const travelService = {
-  getAll: async () => {
-    const travels = await prisma.travel.findMany();
+  getAll: async (ownerId: string) => {
+    const travels = await prisma.travel.findMany({
+      where: {
+        ownerId: ownerId,
+      },
+    });
     return travels;
   },
 

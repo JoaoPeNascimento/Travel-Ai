@@ -4,8 +4,9 @@ import { activityService } from "../services/activityService";
 
 export const travelController = {
   getAll: async (req: Request, res: Response) => {
+    const id = req.params.id;
     try {
-      const travels = await travelService.getAll();
+      const travels = await travelService.getAll(id);
       if (travels.length === 0) {
         return res.send("Nenhuma viagem cadastrada");
       }
