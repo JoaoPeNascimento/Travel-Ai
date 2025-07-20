@@ -9,6 +9,8 @@
     "types": ["node"],
     "moduleResolution": "node",
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   }
 }
