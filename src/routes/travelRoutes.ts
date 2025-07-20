@@ -8,5 +8,6 @@ router.get("/", travelController.getAll);
 router.get("/:id", travelController.getById);
 router.delete("/:id", travelController.deleteTravel);
 router.post("/", validateTravelDates, travelController.createTravel);
+router.put("/:id", validateTravelDates, travelController.updateTravel);
 
 export default router;

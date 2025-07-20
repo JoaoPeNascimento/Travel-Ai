@@ -57,4 +57,19 @@ export const travelController = {
       res.status(404).json({ error: "Viagem não encontrada: " + error });
     }
   },
+
+  updateTravel: async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const { destination, startDate, endDate } = req.body;
+    try {
+      const updatedTravel = await travelService.updateTravel(id, {
+        destination,
+        startDate,
+        endDate,
+      });
+      res.status(200).json(updatedTravel);
+    } catch (error) {
+      res.status(404).json({ error: "Viagem não encontrada: " + error });
+    }
+  },
 };
