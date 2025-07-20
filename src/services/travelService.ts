@@ -27,30 +27,11 @@ export const travelService = {
     ownerId: string;
   }) => {
     try {
-      const startDate = new Date(data.startDate);
-      const endDate = new Date(data.endDate);
-
-      if (startDate >= endDate) {
-        throw new Error(
-          "A data de início deve ser anterior à data de término."
-        );
-      }
-
-      if (startDate < new Date()) {
-        throw new Error("A data de início não pode ser anterior à data atual.");
-      }
-
-      if (endDate < new Date()) {
-        throw new Error(
-          "A data de término não pode ser anterior à data atual."
-        );
-      }
-
       const travel = await prisma.travel.create({
         data: {
           destination: data.destination,
-          startDate: startDate,
-          endDate: endDate,
+          startDate: new Date(data.startDate),
+          endDate: new Date(data.endDate),
           ownerId: data.ownerId,
         },
       });
@@ -68,6 +49,27 @@ export const travelService = {
     const travel = await prisma.travel.delete({
       where: {
         id: id,
+      },
+    });
+    return travel;
+  },
+
+  updateTravel: async (
+    id: string,
+    data: {
+      destination: string;
+      startDate: string;
+      endDate: string;
+    }
+  ) => {
+    const travel = await prisma.travel.update({
+      where: {
+        id: id,
+      },
+      data: {
+        destination: data.destination,
+        startDate: new Date(data.startDate),
+        endDate: new Date(data.endDate),
       },
     });
     return travel;
