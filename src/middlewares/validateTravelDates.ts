@@ -1,11 +1,23 @@
 import { Request, Response, NextFunction } from "express";
 
-export function validateTravelDates(
+export function validateOptionalTravelDates(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   const { startDate, endDate } = req.body;
+
+  // Se nenhum dos dois campos for enviado, simplesmente continua
+  if (!startDate && !endDate) {
+    return next();
+  }
+
+  // Se só um dos campos for enviado, isso é considerado um erro
+  if ((startDate && !endDate) || (!startDate && endDate)) {
+    return res.status(400).json({
+      error: "Ambas as datas devem ser fornecidas para validação.",
+    });
+  }
 
   const start = new Date(startDate);
   const end = new Date(endDate);

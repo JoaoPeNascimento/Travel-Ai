@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { travelController } from "../controllers/travelController";
-import { validateTravelDates } from "../middlewares/validateTravelDates";
+import { validateOptionalTravelDates } from "../middlewares/validateTravelDates";
 import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = Router();
@@ -11,13 +11,13 @@ router.delete("/:id", authMiddleware, travelController.deleteTravel);
 router.post(
   "/",
   authMiddleware,
-  validateTravelDates,
+  validateOptionalTravelDates,
   travelController.createTravel
 );
 router.put(
   "/:id",
   authMiddleware,
-  validateTravelDates,
+  validateOptionalTravelDates,
   travelController.updateTravel
 );
 
