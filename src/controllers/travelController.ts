@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { travelService } from "../services/travelService";
 import { activityService } from "../services/activityService";
+import { inviteService } from "../services/inviteService";
 
 export const travelController = {
   getAll: async (req: Request, res: Response) => {
@@ -52,8 +53,13 @@ export const travelController = {
     try {
       const deletedActivities =
         await activityService.deleteAllActivitiesByTravelId(id);
+      const deletedInvites = await inviteService.deleteInvitesByTravelId(id);
       const deletedTravel = await travelService.deleteTravel(id);
-      res.status(200).json(deletedTravel).json(deletedActivities);
+      res
+        .status(200)
+        .json(deletedTravel)
+        .json(deletedActivities)
+        .json(deletedInvites);
     } catch (error) {
       res.status(404).json({ error: "Viagem não encontrada: " + error });
     }
