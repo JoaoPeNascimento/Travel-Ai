@@ -14,11 +14,15 @@ export const authController = {
           .json({ error: "Nome, e-mail e senha são obrigatórios." });
       }
 
-      const token = await authService.register(name, email, password);
-      res.status(201).json({ token });
+      const { token, userId } = await authService.register(
+        name,
+        email,
+        password
+      );
+      res.status(201).json({ token, userId });
     } catch (error) {
       res.status(400).json({
-        error: "Erro ao fazer login. E-mail ou senha inválidos:" + error,
+        error: "Erro ao registrar. " + (error as Error).message,
       });
     }
   },
@@ -33,11 +37,24 @@ export const authController = {
           .json({ error: "E-mail e senha são obrigatórios." });
       }
 
-      const token = await authService.login(email, password);
-      res.status(200).json({ token });
+      const { token, userId } = await authService.login(email, password);
+      res.status(200).json({ token, userId });
     } catch (error) {
       res.status(400).json({
-        error: "Erro ao fazer login. E-mail ou senha inválidos:" + error,
+        error: "Erro ao fazer login. " + (error as Error).message,
+      });
+    }
+  },
+
+  getUser: async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      const { userData } = await authService.getUser(id);
+      res.status(200).json({ userData });
+    } catch (error) {
+      res.status(400).json({
+        error: "Erro ao fazer login. " + (error as Error).message,
       });
     }
   },
