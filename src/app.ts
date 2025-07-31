@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import travelRoutes from "./routes/travelRoutes";
 import activityRoutes from "./routes/activityRoutes";
 import authRoutes from "./routes/authRoutes";
@@ -7,6 +8,8 @@ import geminiRoutes from "./routes/geminiRoutes";
 
 const app = express();
 app.use(express.json());
+
+app.use(cors({ origin: "http://localhost:3001" }));
 
 app.use("/travel", travelRoutes);
 app.use("/activity", activityRoutes);

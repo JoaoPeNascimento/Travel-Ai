@@ -30,8 +30,11 @@ export const authService = {
   },
 
   getUser: async (id: string) => {
-    const user = await prisma.user.findUnique({ where: { id: id } });
-    if (!user) throw new Error("usuário não encontrado, favor realizar login.");
+    const user = await prisma.user.findUnique({ where: { id } });
+
+    if (!user) {
+      throw new Error("Usuário não encontrado. Faça login novamente.");
+    }
 
     const userData = {
       name: user.name,

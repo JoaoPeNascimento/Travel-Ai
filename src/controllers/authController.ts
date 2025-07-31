@@ -1,7 +1,6 @@
-// src/controllers/authController.ts
-
 import { Request, Response } from "express";
 import { authService } from "../services/authService";
+import { AuthenticatedRequest } from "types/express";
 
 export const authController = {
   register: async (req: Request, res: Response) => {
@@ -47,14 +46,14 @@ export const authController = {
   },
 
   getUser: async (req: Request, res: Response) => {
-    try {
-      const { id } = req.params;
+    const { userId } = req as AuthenticatedRequest;
 
-      const { userData } = await authService.getUser(id);
-      res.status(200).json({ userData });
+    try {
+      const { userData } = await authService.getUser(userId);
+      return res.status(200).json({ userData });
     } catch (error) {
-      res.status(400).json({
-        error: "Erro ao fazer login. " + (error as Error).message,
+      return res.status(400).json({
+        error: "Erro ao buscar usuário: " + (error as Error).message,
       });
     }
   },
