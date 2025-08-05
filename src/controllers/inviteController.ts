@@ -3,13 +3,9 @@ import { inviteService } from "../services/inviteService";
 
 export const inviteController = {
   createInvite: async (req: Request, res: Response) => {
-    const { userId, travelId, recieverEmail } = req.body;
+    const { travelId, recieverEmail } = req.body;
     try {
-      const invite = await inviteService.createInvite(
-        userId,
-        travelId,
-        recieverEmail
-      );
+      const invite = await inviteService.createInvite(travelId, recieverEmail);
       return res
         .status(201)
         .json({ message: "Convite criado e e-mail enviado.", invite });

@@ -3,16 +3,20 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const inviteService = {
-  createInvite: async (
-    userId: string,
-    travelId: string,
-    recieverEmail: string
-  ) => {
+  createInvite: async (travelId: string, recieverEmail: string) => {
+    const userReciever = await prisma.user.findUnique({
+      where: {
+        email: recieverEmail,
+      },
+    });
+
     return await prisma.invite.create({
       data: {
-        userId,
-        travelId,
+        travel: { connect: { id: travelId } },
         recieverEmail,
+        ...(userReciever && {
+          user: { connect: { id: userReciever.id } },
+        }),
       },
     });
   },
