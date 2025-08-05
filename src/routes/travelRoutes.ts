@@ -5,17 +5,17 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-router.get("/:id", authMiddleware, travelController.getAll);
+router.get("/", authMiddleware, travelController.getAll);
 router.get("/:id", authMiddleware, travelController.getById);
-router.delete("/:id", authMiddleware, travelController.deleteTravel);
 router.post(
   "/",
   authMiddleware,
   validateOptionalTravelDates,
   travelController.createTravel
 );
+router.delete("/:travelId", authMiddleware, travelController.deleteTravel);
 router.put(
-  "/:id",
+  "/:travelId",
   authMiddleware,
   validateOptionalTravelDates,
   travelController.updateTravel

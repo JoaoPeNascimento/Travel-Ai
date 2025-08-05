@@ -18,10 +18,10 @@ export const travelService = {
     return travels;
   },
 
-  getById: async (id: string) => {
+  getById: async (travelId: string) => {
     const travel = await prisma.travel.findUnique({
       where: {
-        id: id,
+        id: travelId,
       },
     });
     if (!travel) {
@@ -58,16 +58,33 @@ export const travelService = {
     }
   },
 
-  deleteTravel: async (id: string) => {
-    const travel = await prisma.travel.delete({
-      where: {
-        id: id,
-      },
+  deleteTravel: async (travelId: string, userId: string) => {
+    const travelToBeDeleted = await prisma.travel.findUnique({
+      where: { id: travelId },
     });
-    return travel;
+
+    if (!travelToBeDeleted) {
+      throw new Error("Ao deletar a viagem. Viagem não encontrada");
+    }
+
+    if (travelToBeDeleted.ownerId == userId) {
+      await prisma.travel.delete({
+        where: {
+          id: travelId,
+        },
+      });
+    } else {
+      throw new Error(
+        "Erro ao deletar a viagem. Sem permissão para deletar esta viagem!"
+      );
+    }
   },
 
-  updateTravel: async (id: string, data: UpdateTravelData) => {
+  updateTravel: async (
+    travelId: string,
+    userId: string,
+    data: UpdateTravelData
+  ) => {
     const updateData: Partial<{
       destination: string;
       startDate: Date;
@@ -86,11 +103,23 @@ export const travelService = {
       updateData.endDate = new Date(data.endDate);
     }
 
-    const travel = await prisma.travel.update({
-      where: { id },
-      data: updateData,
+    const travelToBeUpdated = await prisma.travel.findUnique({
+      where: { id: travelId },
     });
 
-    return travel;
+    if (!travelToBeUpdated) {
+      throw new Error("Ao atualizar a viagem. Viagem não encontrada");
+    }
+
+    if (travelToBeUpdated.ownerId == userId) {
+      await prisma.travel.update({
+        where: { id: travelId },
+        data: updateData,
+      });
+    } else {
+      throw new Error(
+        "Erro ao deletar a viagem. Sem permissão para deletar esta viagem!"
+      );
+    }
   },
 };

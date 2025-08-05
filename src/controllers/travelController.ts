@@ -2,12 +2,14 @@ import { Request, Response } from "express";
 import { travelService } from "../services/travelService";
 import { activityService } from "../services/activityService";
 import { inviteService } from "../services/inviteService";
+import { AuthenticatedRequest } from "types/express";
 
 export const travelController = {
   getAll: async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const { userId } = req as AuthenticatedRequest;
+
     try {
-      const travels = await travelService.getAll(id);
+      const travels = await travelService.getAll(userId);
       if (travels.length === 0) {
         return res.send("Nenhuma viagem cadastrada");
       }
@@ -18,9 +20,10 @@ export const travelController = {
   },
 
   getById: async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const travelId = req.params.travelId;
+
     try {
-      const travel = await travelService.getById(id);
+      const travel = await travelService.getById(travelId);
       res.status(200).json(travel);
     } catch (error) {
       res.status(404).json({ error: "Viagem não encontrada: " + error });
@@ -28,13 +31,16 @@ export const travelController = {
   },
 
   createTravel: async (req: Request, res: Response) => {
-    const { destination, startDate, endDate, ownerId } = req.body;
+    const { destination, startDate, endDate } = req.body;
+
+    const { userId } = req as AuthenticatedRequest;
+
     try {
       const newTravel = await travelService.createTravel({
         destination,
         startDate,
         endDate,
-        ownerId,
+        ownerId: userId,
       });
 
       if (!newTravel) {
@@ -49,34 +55,35 @@ export const travelController = {
   },
 
   deleteTravel: async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const travelId = req.params.travelId;
+
+    const { userId } = req as AuthenticatedRequest;
+
     try {
-      const deletedActivities =
-        await activityService.deleteAllActivitiesByTravelId(id);
-      const deletedInvites = await inviteService.deleteInvitesByTravelId(id);
-      const deletedTravel = await travelService.deleteTravel(id);
-      res
-        .status(200)
-        .json(deletedTravel)
-        .json(deletedActivities)
-        .json(deletedInvites);
+      await activityService.deleteAllActivitiesByTravelId(travelId);
+      await inviteService.deleteInvitesByTravelId(travelId);
+      await travelService.deleteTravel(travelId, userId);
+      res.status(204).end();
     } catch (error) {
-      res.status(404).json({ error: "Viagem não encontrada: " + error });
+      res.status(404).json({ Error: "" + error });
     }
   },
 
   updateTravel: async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const travelId = req.params.travelId;
+
+    const { userId } = req as AuthenticatedRequest;
+
     const { destination, startDate, endDate } = req.body;
     try {
-      const updatedTravel = await travelService.updateTravel(id, {
+      const updatedTravel = await travelService.updateTravel(travelId, userId, {
         destination,
         startDate,
         endDate,
       });
       res.status(200).json(updatedTravel);
     } catch (error) {
-      res.status(404).json({ error: "Viagem não encontrada: " + error });
+      res.status(404).json({ Error: "" + error });
     }
   },
 };
