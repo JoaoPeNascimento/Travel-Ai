@@ -12,5 +12,6 @@ router.post(
   inviteController.createInvite
 );
 router.get("/:travelId", authMiddleware, inviteController.getTravelInvites);
+router.get("/", authMiddleware, inviteController.getTravelInvites);
 
 export default router;

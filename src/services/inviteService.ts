@@ -21,10 +21,22 @@ export const inviteService = {
     });
   },
 
-  getInvites: async (travelId: string) => {
+  getInvitesByTravel: async (travelId: string) => {
+    return await prisma.invite.findMany({
+      where: { travelId },
+      include: {
+        travel: true, // se quiser os dados da viagem
+      },
+    });
+  },
+
+  getInvitesByUser: async (userId: string) => {
     return await prisma.invite.findMany({
       where: {
-        travelId: travelId,
+        userId,
+      },
+      include: {
+        travel: true,
       },
     });
   },
