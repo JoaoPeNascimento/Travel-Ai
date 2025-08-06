@@ -14,6 +14,12 @@ export const travelService = {
       where: {
         ownerId: ownerId,
       },
+      select: {
+        id: true,
+        destination: true,
+        startDate: true,
+        endDate: true,
+      },
     });
     return travels;
   },
