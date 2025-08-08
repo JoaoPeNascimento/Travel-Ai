@@ -21,7 +21,7 @@ export const sendEmailMiddleware = async (
 
     const html = generateInviteEmail(
       travel.destination,
-      `https://www.youtube.com/`
+      `https://www.youtube.com/${travelId}`
     );
 
     await sendInviteEmail(recieverEmail, "Convite para uma viagem", html);
