@@ -6,10 +6,7 @@ const router = Router();
 
 router.get("/:travelId", authMiddleware, activityController.getAll);
 router.post("/:travelId", authMiddleware, activityController.createActivity);
-router.delete(
-  "/:travelId",
-  authMiddleware,
-  activityController.deleteActivityById
-);
+router.put("/:id", authMiddleware, activityController.updateActivity);
+router.delete("/:id", authMiddleware, activityController.deleteActivityById);
 
 export default router;

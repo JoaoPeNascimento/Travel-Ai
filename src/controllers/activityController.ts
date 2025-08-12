@@ -6,7 +6,6 @@ export const activityController = {
     const travelId = req.params.travelId;
     try {
       const activities = await activityService.getAll(travelId);
-
       if (activities.length === 0) {
         return res
           .status(400)
@@ -29,14 +28,28 @@ export const activityController = {
         travelId,
       });
 
-      if (!newActivity) {
-        return res
-          .status(400)
-          .json({ error: "Não foi possível criar a viagem." });
-      }
       res.status(201).json(newActivity);
     } catch (error) {
       res.status(500).json({ error: "Erro ao criar a atividade: " + error });
+    }
+  },
+
+  updateActivity: async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { name, description, date } = req.body;
+
+    try {
+      const updatedActivity = await activityService.updateActivity(id, {
+        name,
+        description,
+        date,
+      });
+
+      res.status(200).json(updatedActivity);
+    } catch (error) {
+      res
+        .status(400)
+        .json({ error: "Erro ao atualizar a atividade: " + error });
     }
   },
 
@@ -55,9 +68,12 @@ export const activityController = {
     try {
       const deletedActivities =
         await activityService.deleteAllActivitiesByTravelId(travelId);
-      res.status(200).send("Atividades deletadas").json(deletedActivities);
+      res.status(200).json({
+        message: "Atividades deletadas com sucesso",
+        deletedCount: deletedActivities.count,
+      });
     } catch (error) {
-      res.status(404).json({ error: "Atividades não encontrada: " + error });
+      res.status(404).json({ error: "Atividades não encontradas: " + error });
     }
   },
 };
