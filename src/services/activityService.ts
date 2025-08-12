@@ -8,6 +8,12 @@ export const activityService = {
       where: {
         travelId: travelId,
       },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        date: true,
+      },
     });
     return activities;
   },

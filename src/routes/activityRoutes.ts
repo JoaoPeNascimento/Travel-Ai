@@ -5,7 +5,11 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 const router = Router();
 
 router.get("/:travelId", authMiddleware, activityController.getAll);
-router.post("/", authMiddleware, activityController.createActivity);
-router.delete("/:id", authMiddleware, activityController.deleteActivityById);
+router.post("/:travelId", authMiddleware, activityController.createActivity);
+router.delete(
+  "/:travelId",
+  authMiddleware,
+  activityController.deleteActivityById
+);
 
 export default router;

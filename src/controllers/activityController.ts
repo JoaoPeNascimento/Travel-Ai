@@ -19,7 +19,8 @@ export const activityController = {
   },
 
   createActivity: async (req: Request, res: Response) => {
-    const { name, description, date, travelId } = req.body;
+    const { name, description, date } = req.body;
+    const { travelId } = req.params;
     try {
       const newActivity = await activityService.createActivity({
         name,
