@@ -6,7 +6,7 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 const router = express.Router();
 
 router.post(
-  "/",
+  "/:travelId",
   authMiddleware,
   sendEmailMiddleware,
   inviteController.createInvite
