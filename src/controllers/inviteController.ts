@@ -4,8 +4,7 @@ import { AuthenticatedRequest } from "types/express";
 
 export const inviteController = {
   createInvite: async (req: Request, res: Response) => {
-    const { recieverEmail } = req.body;
-    const { travelId } = req.params;
+    const { recieverEmail, travelId } = req.body;
     try {
       const invite = await inviteService.createInvite(travelId, recieverEmail);
       return res
