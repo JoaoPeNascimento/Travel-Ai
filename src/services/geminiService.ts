@@ -15,7 +15,7 @@ export const geminiService = {
       Estou planejando uma viagem para ${destination} durante as datas de ${startDate} e ${endDate}.
       Quais atrações turísticas, pontos culturais, restaurantes famosos ou lugares únicos você recomenda visitar nesse período?
       Considere clima, estação do ano e eventos locais. Responda de forma organizada e objetiva. Entregue a resposta
-      em um único paragráfo. 
+      em um único paragráfo, dividindo sugestões de locais para visitar, restaurantes e passeios. Adicione uma linha em branco dividindo cada tópico na resposta. 
     `;
 
     const result = await model.generateContent(prompt);
