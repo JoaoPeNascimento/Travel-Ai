@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { inviteService } from "../services/inviteService";
-import { AuthenticatedRequest } from "types/express";
+import { AuthenticatedRequest } from "../types/express";
 
 export const inviteController = {
   createInvite: async (req: Request, res: Response) => {

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { travelService } from "../services/travelService";
 import { activityService } from "../services/activityService";
 import { inviteService } from "../services/inviteService";
-import { AuthenticatedRequest } from "types/express";
+import { AuthenticatedRequest } from "../types/express";
 
 export const travelController = {
   getAll: async (req: Request, res: Response) => {
