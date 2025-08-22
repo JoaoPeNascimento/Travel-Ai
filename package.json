@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "nodemon api/src/server.ts",
     "prepare": "husky",
-    "lint": "next lint"
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "lint": "next lint",
+    "prisma:deploy": "prisma generate && prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
