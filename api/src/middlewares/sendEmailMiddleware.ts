@@ -21,7 +21,7 @@ export const sendEmailMiddleware = async (
 
     const html = generateInviteEmail(
       travel.destination,
-      `https://www.youtube.com/${travelId}`
+      `https://intellitrip-two.vercel.app/travel/invite/${travelId}`
     );
 
     await sendInviteEmail(recieverEmail, "Convite para uma viagem", html);
