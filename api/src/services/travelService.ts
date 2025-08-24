@@ -136,7 +136,10 @@ export const travelService = {
         include: {
           invites: {
             select: {
+              id: true,
               recieverEmail: true,
+              createdAt: true,
+              updatedAt: true,
             },
           },
           activities: {
@@ -151,11 +154,20 @@ export const travelService = {
         },
       });
 
-      if (!travel) {
-        throw new Error("Viagem não encontrada");
-      }
+      if (!travel) throw new Error("Viagem não encontrada");
 
-      return travel;
+      // 🔹 Mapear invites para combinar com schema frontend
+      const invitesMapped = travel.invites.map((inv) => ({
+        id: inv.id,
+        email: inv.recieverEmail,
+        createdAt: inv.createdAt,
+        updatedAt: inv.updatedAt,
+      }));
+
+      return {
+        ...travel,
+        invites: invitesMapped,
+      };
     } catch (error: unknown) {
       if (error instanceof Error) {
         throw new Error("Erro ao buscar viagem: " + error.message);
