@@ -20,5 +20,6 @@ router.put(
   validateOptionalTravelDates,
   travelController.updateTravel
 );
+router.get("/invite/:travelId", travelController.getTravelWithDetails);
 
 export default router;

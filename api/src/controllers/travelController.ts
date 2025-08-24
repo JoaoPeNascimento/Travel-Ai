@@ -86,4 +86,15 @@ export const travelController = {
       res.status(404).json({ Error: "" + error });
     }
   },
+
+  getTravelWithDetails: async (req: Request, res: Response) => {
+    const { travelId } = req.params;
+
+    try {
+      const travel = await travelService.getTravelWithDetails(travelId);
+      res.status(200).json(travel);
+    } catch (error) {
+      res.status(404).json({ error: "" + error });
+    }
+  },
 };

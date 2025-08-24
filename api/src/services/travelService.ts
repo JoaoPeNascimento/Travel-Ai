@@ -128,4 +128,39 @@ export const travelService = {
       );
     }
   },
+
+  getTravelWithDetails: async (travelId: string) => {
+    try {
+      const travel = await prisma.travel.findUnique({
+        where: { id: travelId },
+        include: {
+          invites: {
+            select: {
+              recieverEmail: true,
+            },
+          },
+          activities: {
+            select: {
+              id: true,
+              name: true,
+              date: true,
+              description: true,
+              createdAt: true,
+            },
+          },
+        },
+      });
+
+      if (!travel) {
+        throw new Error("Viagem não encontrada");
+      }
+
+      return travel;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error("Erro ao buscar viagem: " + error.message);
+      }
+      throw new Error("Erro ao buscar viagem");
+    }
+  },
 };
