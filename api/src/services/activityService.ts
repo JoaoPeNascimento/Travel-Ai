@@ -124,10 +124,6 @@ export const activityService = {
       where: { travelId },
     });
 
-    if (activities.count === 0) {
-      throw new Error("Nenhuma atividade encontrada para excluir.");
-    }
-
     return activities;
   },
 };
