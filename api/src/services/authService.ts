@@ -47,6 +47,53 @@ export const authService = {
   checkEmail: async (email: string) => {
     const user = await prisma.user.findUnique({ where: { email } });
 
-    return !!user;
+    if (!user) {
+      throw new Error("Usuário não localizado");
+    }
+
+    const token = generateToken(user.id);
+
+    return {
+      exists: true,
+      token,
+    };
+  },
+
+  updateUserData: async (
+    userId: string,
+    data: {
+      name?: string;
+      password?: string;
+    }
+  ) => {
+    const userExists = await prisma.user.findUnique({ where: { id: userId } });
+
+    if (!userExists) {
+      throw new Error("Usuário não encontrado!");
+    }
+
+    try {
+      const updateData: typeof data = {};
+
+      if (data.name) {
+        updateData.name = data.name;
+      }
+
+      if (data.password) {
+        updateData.password = await bcrypt.hash(data.password, 10);
+      }
+
+      const updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: updateData,
+      });
+
+      return updatedUser;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(`Erro ao atualizar usuário: ${error.message}`);
+      }
+      throw new Error("Erro desconhecido ao atualizar usuário.");
+    }
   },
 };

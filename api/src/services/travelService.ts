@@ -156,7 +156,6 @@ export const travelService = {
 
       if (!travel) throw new Error("Viagem não encontrada");
 
-      // 🔹 Mapear invites para combinar com schema frontend
       const invitesMapped = travel.invites.map((inv) => ({
         id: inv.id,
         email: inv.recieverEmail,

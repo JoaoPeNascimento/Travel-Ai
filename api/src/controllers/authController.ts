@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { authService } from "../services/authService";
-import { AuthenticatedRequest } from "../types/express";
+import { AuthenticatedRequest, AuthRequest } from "../types/express";
 
 export const authController = {
   register: async (req: Request, res: Response) => {
@@ -66,12 +66,37 @@ export const authController = {
         return res.status(400).json({ error: "E-mail é obrigatório." });
       }
 
-      const exists = await authService.checkEmail(email);
-      return res.status(200).json({ exists });
+      const { exists, token } = await authService.checkEmail(email);
+
+      return res.status(200).json({ exists, token });
     } catch (error) {
       return res.status(400).json({
         error: "Erro ao verificar e-mail: " + (error as Error).message,
       });
+    }
+  },
+
+  updateUserData: async (req: AuthRequest, res: Response) => {
+    try {
+      const { userId } = req;
+
+      if (!userId) {
+        return res.status(401).json({ error: "Usuário não autenticado." });
+      }
+
+      const data = req.body;
+      const updatedUser = await authService.updateUserData(userId, data);
+
+      const { password, ...userWithoutPassword } = updatedUser;
+
+      return res.status(200).json(userWithoutPassword);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return res.status(400).json({ error: error.message });
+      }
+      return res
+        .status(500)
+        .json({ error: "Erro desconhecido ao atualizar usuário" });
     }
   },
 };
