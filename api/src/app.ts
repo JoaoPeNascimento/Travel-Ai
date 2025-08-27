@@ -9,8 +9,8 @@ import geminiRoutes from "./routes/geminiRoutes";
 const app = express();
 app.use(express.json());
 
-app.use(cors({ origin: "http://localhost:3001" }));
-// app.use(cors({ origin: "https://intellitrip-two.vercel.app" }));
+//app.use(cors({ origin: "http://localhost:3001" }));
+app.use(cors({ origin: "https://intellitrip-two.vercel.app" }));
 
 app.use("/travel", travelRoutes);
 app.use("/activity", activityRoutes);
