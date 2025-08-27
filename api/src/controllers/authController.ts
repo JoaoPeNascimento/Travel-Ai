@@ -57,4 +57,21 @@ export const authController = {
       });
     }
   },
+
+  checkEmail: async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body;
+
+      if (!email) {
+        return res.status(400).json({ error: "E-mail é obrigatório." });
+      }
+
+      const exists = await authService.checkEmail(email);
+      return res.status(200).json({ exists });
+    } catch (error) {
+      return res.status(400).json({
+        error: "Erro ao verificar e-mail: " + (error as Error).message,
+      });
+    }
+  },
 };

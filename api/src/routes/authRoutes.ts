@@ -7,5 +7,6 @@ const router = Router();
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.get("/user", authMiddleware, authController.getUser);
+router.post("/check-email", authController.checkEmail);
 
 export default router;
