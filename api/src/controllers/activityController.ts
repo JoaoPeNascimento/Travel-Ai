@@ -8,7 +8,7 @@ export const activityController = {
       const activities = await activityService.getAll(travelId);
       if (activities.length === 0) {
         return res
-          .status(400)
+          .status(200)
           .json({ error: "Não há atividades para esta viagem!" });
       }
       res.status(200).json(activities);
@@ -57,9 +57,9 @@ export const activityController = {
     const id = req.params.id;
     try {
       const deletedActivity = await activityService.deleteActivityById(id);
-      res.status(200).json(deletedActivity);
+      res.status(204);
     } catch (error) {
-      res.status(404).json({ error: "Atividade não encontrada: " + error });
+      res.status(500).json({ error: "Erro ao deletar a atividade: " + error });
     }
   },
 

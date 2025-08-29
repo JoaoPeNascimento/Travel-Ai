@@ -13,5 +13,6 @@ router.post(
 );
 router.get("/:travelId", authMiddleware, inviteController.getTravelInvites);
 router.get("/", authMiddleware, inviteController.getTravelInvites);
+router.delete("/:inviteId", authMiddleware, inviteController.deleteInviteById);
 
 export default router;

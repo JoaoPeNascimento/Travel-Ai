@@ -52,4 +52,22 @@ export const inviteService = {
       throw new Error("Não há convites para deletar.");
     }
   },
+
+  deleteInviteById: async (inviteId: string) => {
+    const inviteToBeDeleted = await prisma.invite.findUnique({
+      where: {
+        id: inviteId,
+      },
+    });
+
+    if (!inviteToBeDeleted) {
+      throw new Error("Convite não encontrado!");
+    }
+
+    await prisma.invite.delete({
+      where: {
+        id: inviteId,
+      },
+    });
+  },
 };

@@ -41,4 +41,16 @@ export const inviteController = {
         .json({ error: "Erro ao buscar os convites." + error });
     }
   },
+
+  deleteInviteById: async (req: Request, res: Response) => {
+    const { inviteId } = req.params;
+    try {
+      const invite = await inviteService.deleteInviteById(inviteId);
+      return res.status(204);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error: "Erro ao deletar o convite." + error });
+    }
+  },
 };
