@@ -16,9 +16,9 @@ export const geminiController = {
       const recommendations = await geminiService.getRecommendations(
         destination,
         startDate,
-        endDate
+        endDate,
       );
-      return res.status(200).json({ recommendations });
+      return res.status(200).json(recommendations);
     } catch (error) {
       return res
         .status(500)

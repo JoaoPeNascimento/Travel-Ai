@@ -81,7 +81,7 @@ export const travelService = {
       });
     } else {
       throw new Error(
-        "Erro ao deletar a viagem. Sem permissão para deletar esta viagem!"
+        "Erro ao deletar a viagem. Sem permissão para deletar esta viagem!",
       );
     }
   },
@@ -89,7 +89,7 @@ export const travelService = {
   updateTravel: async (
     travelId: string,
     userId: string,
-    data: UpdateTravelData
+    data: UpdateTravelData,
   ) => {
     const updateData: Partial<{
       destination: string;
@@ -124,7 +124,7 @@ export const travelService = {
       });
     } else {
       throw new Error(
-        "Erro ao deletar a viagem. Sem permissão para deletar esta viagem!"
+        "Erro ao deletar a viagem. Sem permissão para deletar esta viagem!",
       );
     }
   },
@@ -156,12 +156,19 @@ export const travelService = {
 
       if (!travel) throw new Error("Viagem não encontrada");
 
-      const invitesMapped = travel.invites.map((inv) => ({
-        id: inv.id,
-        email: inv.recieverEmail,
-        createdAt: inv.createdAt,
-        updatedAt: inv.updatedAt,
-      }));
+      const invitesMapped = travel.invites.map(
+        (inv: {
+          id: string;
+          recieverEmail: string;
+          createdAt: Date;
+          updatedAt: Date;
+        }) => ({
+          id: inv.id,
+          email: inv.recieverEmail,
+          createdAt: inv.createdAt,
+          updatedAt: inv.updatedAt,
+        }),
+      );
 
       return {
         ...travel,

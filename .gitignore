@@ -23,3 +23,5 @@ pnpm-debug.log*
 # sistema
 .DS_Store
 Thumbs.db
+
+.vscode
