@@ -14,8 +14,7 @@ export const authService = {
       data: { name, email, password: hashedPassword },
     });
 
-    const token = generateToken(user.id);
-    return { token, userId: user.id };
+    return user;
   },
 
   login: async (email: string, password: string) => {
@@ -26,7 +25,7 @@ export const authService = {
     if (!isValid) throw new Error("Senha incorreta.");
 
     const token = generateToken(user.id);
-    return { token, userId: user.id };
+    return { token };
   },
 
   getUser: async (id: string) => {
@@ -64,7 +63,7 @@ export const authService = {
     data: {
       name?: string;
       password?: string;
-    }
+    },
   ) => {
     const userExists = await prisma.user.findUnique({ where: { id: userId } });
 
