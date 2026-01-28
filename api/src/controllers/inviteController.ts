@@ -21,7 +21,7 @@ export const inviteController = {
     const { userId } = req as AuthenticatedRequest;
 
     try {
-      const invites = await inviteService.getInvitesByTravel(userId);
+      const invites = await inviteService.getInvitesByUser(userId);
       return res.status(200).json(invites);
     } catch (error) {
       return res

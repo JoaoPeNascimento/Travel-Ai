@@ -9,10 +9,10 @@ router.post(
   "/",
   authMiddleware,
   sendEmailMiddleware,
-  inviteController.createInvite
+  inviteController.createInvite,
 );
 router.get("/:travelId", authMiddleware, inviteController.getTravelInvites);
-router.get("/", authMiddleware, inviteController.getTravelInvites);
+router.get("/", authMiddleware, inviteController.getUserInvites);
 router.delete("/:inviteId", authMiddleware, inviteController.deleteInviteById);
 
 export default router;
