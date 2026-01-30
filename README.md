@@ -1,103 +1,84 @@
-# IntelliTrip
+# IntelliTrip - Backend (Travel-AI)
 
-Este projeto é composto por dois repositórios principais: **IntelliTrip (Front-end)** e **Travel-Ai (Back-end)**.  
-Juntos, eles formam uma aplicação completa de **gestão de viagens**, com funcionalidades que integram convites por e-mail, criação de atividades, sugestões de IA e gerenciamento de participantes.
+Este repositório contém o **Backend** da aplicação **IntelliTrip**, uma plataforma inteligente para planejamento e gestão de viagens.
 
----
+O backend é responsável por toda a lógica de negócios, autenticação, gerenciamento de banco de dados e integração com Inteligência Artificial para sugestões de atividades.
 
-## 🚀 IntelliTrip (Front-end)
+🔗 **Repositório do Frontend:** [https://github.com/JoaoPeNascimento/IntelliTrip]
 
-### Tecnologias utilizadas
+## 🚀 Tecnologias Utilizadas
 
-- **Next.js**
-- **TypeScript**
-- **Zod**
-- **Tailwind CSS**
-- **Shadn**
+O projeto foi desenvolvido utilizando as seguintes tecnologias principais:
 
-### Funcionalidades
+- **Node.js** & **Express**: Framework base para a API.
+- **TypeScript**: Tipagem estática para maior segurança e manutenibilidade.
+- **Prisma ORM**: Para interação com o banco de dados PostgreSQL.
+- **PostgreSQL**: Banco de dados relacional.
+- **Google Gemini AI**: Integração para gerar sugestões inteligentes de viagens e atividades (`@google/generative-ai`).
+- **JWT & Bcrypt**: Autenticação segura e criptografia de senhas.
+- **Nodemailer**: Envio de e-mails (convites e notificações).
 
-- **Criar viagens**
-- Enviar **convites por e-mail** para viagens
-- Criar e gerenciar **atividades** durante a viagem
-- Receber **sugestões de IA** para o destino
-- Visualizar e gerenciar **convites recebidos**
+## 📂 Arquitetura
 
-### Como executar
+A API serve as seguintes rotas principais:
 
-```bash
-# Instale dependências
-npm install
-# ou
-yarn install
+- `/auth`: Autenticação e registro de usuários.
+- `/travel`: Criação e gerenciamento de viagens.
+- `/activity`: Gestão de atividades dentro das viagens.
+- `/invite`: Sistema de convites para outros usuários participarem da viagem.
+- `/ia`: Rotas integradas ao Gemini para funcionalidades de IA.
 
-# Execute em modo de desenvolvimento
-npm run dev
-# ou
-yarn dev
+## 🛠️ Como Executar
 
-# Acesse em http://localhost:3000
-```
+### Pré-requisitos
 
----
+- Node.js (v18 ou superior)
+- PostgreSQL instalado e rodando
 
-## ⚙️ IntelliTrip (Back-end)
+### Passo a Passo
 
-### Tecnologias utilizadas
+1.  **Clone o repositório:**
 
-- **Node.js** com **TypeScript**
-- **Express.js** (endpoints de API REST)
-- **Prisma ORM** (integração com banco de dados)
-- **Nodemailer** (envio de e-mails)
-- **Husky** e **Lint-staged** (boas práticas de commits)
-- **ESLint**
+    ```bash
+    git clone <https://github.com/JoaoPeNascimento/Travel-Ai>
+    cd Travel-Ai
+    ```
 
-### Funcionalidades
+2.  **Instale as dependências:**
 
-- Criação, armazenamento e modifição de **Viagens**
-- API para envio e gerenciamento de **convites por e-mail**
-- Criação e armazenamento de **atividades** relacionadas às viagens
-- Integração com **IA** para sugerir atividades no destino
-- Comunicação com o front-end via **endpoints REST**
+    ```bash
+    npm install
+    ```
 
-### Como executar
+3.  **Configure as Variáveis de Ambiente:**
+    Crie um arquivo `.env` na raiz do projeto com base no exemplo abaixo:
 
-```bash
-# Instale dependências
-npm install
-# ou
-yarn install
+    ```env
+    PORT=3333
+    DATABASE_URL="postgresql://user:password@localhost:5432/traveldb"
+    JWT_SECRET="sua_chave_secreta_jwt"
+    GEMINI_API_KEY="sua_api_key_do_google_gemini"
+    # Configurações de E-mail (Nodemailer)
+    EMAIL_USER="seu_email@exemplo.com"
+    EMAIL_PASS="sua_senha_de_app"
+    ```
 
-# Execute em modo de desenvolvimento
-npm run dev
-# ou
-yarn dev
+4.  **Configure o Banco de Dados:**
+    Execute as migrações do Prisma para criar as tabelas:
 
-# Configurações adicionais necessárias:
-# - Variáveis de ambiente (SMTP para e-mails, conexão com banco de dados, chave da IA, etc.)
-# - Migrações do banco (Prisma)
-npx prisma migrate dev
-# ou
-yarn prisma migrate dev
-```
+    ```bash
+    npx prisma migrate dev
+    ```
 
----
-
-## 📌 Estrutura do Projeto
-
-- **IntelliTrip (Front-end):** Interface do usuário em Next.js
-- **Travel-Ai (Back-end):** API em Node.js com Prisma
+5.  **Execute o projeto:**
+    - Modo de desenvolvimento:
+      ```bash
+      npm run dev
+      ```
+    - Build e produção:
+      ```bash
+      npm run build
+      npm start
+      ```
 
 ---
-
-## 📖 Visão Geral
-
-O **IntelliTrip** é um sistema moderno de gestão de viagens que combina a praticidade de organizar atividades com a inteligência artificial para sugerir passeios e experiências personalizadas.  
-Os usuários podem convidar amigos, montar itinerários e acompanhar todas as informações em um só lugar.
-
----
-
-## 🤝 Contribuição
-
-Contribuições são bem-vindas!  
-Para sugerir melhorias ou reportar problemas, abra uma **issue** ou envie um **pull request**.
